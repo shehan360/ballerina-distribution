@@ -18,15 +18,46 @@ REM  specific language governing permissions and limitations
 REM  under the License.
 REM ---------------------------------------------------------------------------
 
-set BALLERINA_HOME=
-set FILE_PATH=%~sdp0..\distributions\ballerina-version
+setlocal
+set dist=false
+if "%1" == "dist" set dist=true
+if "%2" == "dist" set dist=true
+if "%dist%" == "true" (
+   set JAVA_COMMAND=java
+   if exist %~sdp0..\dependencies\jdk8u202-b08-jre (
+       set JAVA_COMMAND=%~sdp0..\dependencies\jdk8u202-b08-jre\bin\java
+   )
+   %JAVA_COMMAND% -jar %~sdp0..\dependencies\ballerina-update-tool-0.8.0.jar %*
+) else (
+	set BALLERINA_HOME=
+	set FILE_PATH=%~sdp0..\distributions\ballerina-version
 
-if exist ~\.ballerina\ballerina-version (
-   set "FILE_PATH=~\.ballerina\ballerina-version"
+    if exist ~\.ballerina\ballerina-version (
+       set "FILE_PATH=~\.ballerina\ballerina-version"
+    )
+
+    for /f %%a in (%FILE_PATH%) do (
+      set BALLERINA_HOME=%%a
+    )
+	set BALLERINA_EXEC=%~sdp0..\distributions\%BALLERINA_HOME%\bin\ballerina.bat
+    call %BALLERINA_EXEC% %*
 )
 
-for /f %%a in (%FILE_PATH%) do (
-  set "BALLERINA_HOME=%%a"
+set help=false
+if "%1" == "help" (
+	if "%2" == "" set help=true
 )
 
-%~sdp0..\distributions\%BALLERINA_HOME%\bin\ballerina.bat %*
+if "%1" == "" (
+ 	set help=true
+)
+
+if "%help%" == "true" (
+    set JAVA_COMMAND=java
+    if exist %~sdp0..\dependencies\jdk8u202-b08-jre (
+       set JAVA_COMMAND=%~sdp0..\dependencies\jdk8u202-b08-jre\bin\java
+    )
+	%JAVA_COMMAND% -jar %~sdp0..\dependencies\ballerina-update-tool-0.8.0.jar %*
+)
+
+exit /b
