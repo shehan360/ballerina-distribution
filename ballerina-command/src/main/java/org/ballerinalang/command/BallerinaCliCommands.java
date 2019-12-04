@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ballerinalang.update;
+package org.ballerinalang.command;
 
 /**
  * Ballerina CLI commands.
@@ -24,11 +24,12 @@ public class BallerinaCliCommands {
 
     public static final String DEFAULT = "default";
     public static final String HELP = "help";
-    public static final String UPDATE = "update";
+    public static final String UPDATE = "command";
     public static final String DIST = "dist";
     public static final String FETCH = "fetch";
     public static final String LIST = "list";
     public static final String PULL = "pull";
     public static final String USE = "use";
     public static final String REMOVE = "remove";
+    public static final String VERSION = "version";
 }

@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package org.ballerinalang.update;
+package org.ballerinalang.command;
 
-import org.ballerinalang.update.cmd.DefaultCommand;
-import org.ballerinalang.update.cmd.DistributionCommand;
-import org.ballerinalang.update.cmd.FetchCommand;
-import org.ballerinalang.update.cmd.HelpCommand;
-import org.ballerinalang.update.cmd.ListCommand;
-import org.ballerinalang.update.cmd.PullCommand;
-import org.ballerinalang.update.cmd.RemoveCommand;
-import org.ballerinalang.update.cmd.UpdateCommand;
-import org.ballerinalang.update.cmd.UseCommand;
+import org.ballerinalang.command.cmd.DefaultCommand;
+import org.ballerinalang.command.cmd.DistributionCommand;
+import org.ballerinalang.command.cmd.FetchCommand;
+import org.ballerinalang.command.cmd.HelpCommand;
+import org.ballerinalang.command.cmd.ListCommand;
+import org.ballerinalang.command.cmd.PullCommand;
+import org.ballerinalang.command.cmd.RemoveCommand;
+import org.ballerinalang.command.cmd.UpdateCommand;
+import org.ballerinalang.command.cmd.UseCommand;
+import org.ballerinalang.command.cmd.VersionCommand;
 import picocli.CommandLine;
 
 import java.io.PrintStream;
@@ -94,6 +95,10 @@ public class Main {
             distCmdParser.setPosixClusteredShortOptionsAllowed(false);
 
             cmdParser.addSubcommand(BallerinaCliCommands.DIST, distCmdParser);
+
+            VersionCommand versionCmd = new VersionCommand(outStream);
+            cmdParser.addSubcommand(BallerinaCliCommands.VERSION, versionCmd);
+            versionCmd.setParentCmdParser(cmdParser);
 
             cmdParser.setCommandName("ballerina");
             cmdParser.setPosixClusteredShortOptionsAllowed(false);

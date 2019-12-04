@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.ballerinalang.update.cmd;
+package org.ballerinalang.command.cmd;
 
-import org.ballerinalang.update.BLauncherCommand;
-import org.ballerinalang.update.BallerinaCliCommands;
+import org.ballerinalang.command.BLauncherCommand;
+import org.ballerinalang.command.BallerinaCliCommands;
 import picocli.CommandLine;
 
 import java.io.PrintStream;
@@ -35,12 +35,20 @@ public class DefaultCommand extends Command implements BLauncherCommand {
     @CommandLine.Option(names = "--debug", description = "start Ballerina in remote debugging mode")
     private String debugPort;
 
+    @CommandLine.Option(names = { "--version", "-v" }, hidden = true)
+    private boolean versionFlag;
+
     public DefaultCommand(PrintStream printStream) {
         super(printStream);
     }
 
     @Override
     public void execute() {
+        if (versionFlag) {
+            printVersionInfo();
+            return;
+        }
+
         printUsageInfo(BallerinaCliCommands.HELP);
     }
 
